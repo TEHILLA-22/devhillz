@@ -11,6 +11,20 @@ const config: Config = {
           800: "#0F1626",
           700: "#161E36",
         },
+        void: {
+          950: "#05060B",
+          900: "#0B0D16",
+          800: "#10131E",
+          700: "#171B2C",
+        },
+        spectrum: {
+          violet: "#8B5CF6",
+          cyan: "#22D3EE",
+          pink: "#F472B6",
+          amber: "#FBBF24",
+          lime: "#A3E635",
+          fuchsia: "#E879F9",
+        },
         paper: "#F3F6FC",
         muted: "#8C99B8",
         docker: {

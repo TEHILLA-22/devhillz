@@ -2,10 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
 @layer base {
   ::selection {
-    background-color: theme("colors.docker.accent");
-    color: theme("colors.ink.950");
+    background-color: #8b5cf6;
+    color: #05060b;
   }
 
   * {
@@ -15,10 +21,176 @@
   a {
     text-underline-offset: 3px;
   }
+
+  [id] {
+    scroll-margin-top: 6rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   * {
     scroll-behavior: auto;
+  }
+
+  .scene,
+  .scene--curtainRight,
+  .scene--curtainLeft,
+  .scene--curtainUp,
+  .scene--curtainDown {
+    clip-path: none !important;
+    transform: none !important;
+  }
+
+  .liquid-pill::before,
+  .marquee-track,
+  .orb,
+  .shard,
+  .beam {
+    animation: none !important;
+  }
+}
+
+/* ---------------- Liquid glass ---------------- */
+
+.liquid-pill {
+  position: relative;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition:
+    background 0.45s ease,
+    border-color 0.45s ease;
+}
+
+.liquid-pill[data-scrolled="true"] {
+  background: rgba(255, 255, 255, 0.075);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.liquid-pill::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--angle),
+    transparent 0deg,
+    rgba(255, 255, 255, 0.18) 90deg,
+    rgba(139, 92, 246, 0.4) 180deg,
+    rgba(255, 255, 255, 0.18) 270deg,
+    transparent 360deg
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  animation: spin-angle 9s linear infinite;
+  pointer-events: none;
+}
+
+.glass-card {
+  position: relative;
+  border-radius: 1.25rem;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+}
+
+.grid-lines {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 72px 72px;
+  -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 45%, #000 30%, transparent 75%);
+  mask-image: radial-gradient(ellipse 90% 70% at 50% 45%, #000 30%, transparent 75%);
+}
+
+/* ---------------- Cinematic scenes ---------------- */
+
+.scene {
+  --p: 1;
+  position: relative;
+  clip-path: inset(0 0 0 calc((1 - var(--p)) * 100%));
+  transform: perspective(1400px) rotateY(calc((1 - var(--p)) * 7deg));
+  transform-origin: left center;
+  will-change: clip-path, transform;
+}
+
+.scene--curtainLeft {
+  clip-path: inset(0 calc((1 - var(--p)) * 100%) 0 0);
+  transform: perspective(1400px) rotateY(calc((1 - var(--p)) * -7deg));
+  transform-origin: right center;
+}
+
+.scene--curtainUp {
+  clip-path: inset(calc((1 - var(--p)) * 100%) 0 0 0);
+  transform: perspective(1400px) rotateX(calc((1 - var(--p)) * 6deg));
+  transform-origin: top center;
+}
+
+.scene--curtainDown {
+  clip-path: inset(0 0 calc((1 - var(--p)) * 100%) 0);
+  transform: perspective(1400px) rotateX(calc((1 - var(--p)) * -6deg));
+  transform-origin: bottom center;
+}
+
+.scene-body {
+  transform: translateY(calc((1 - var(--p, 1)) * 40px));
+  will-change: transform;
+}
+
+/* ---------------- Ambient motion ---------------- */
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 32s linear infinite;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(70px);
+  pointer-events: none;
+}
+
+.shard {
+  position: absolute;
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02));
+  backdrop-filter: blur(8px);
+  animation: drift 16s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.beam {
+  position: absolute;
+  pointer-events: none;
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+  50% {
+    transform: translate3d(36px, -28px, 0) rotate(10deg) scale(1.08);
+  }
+}
+
+@keyframes spin-angle {
+  to {
+    --angle: 360deg;
   }
 }

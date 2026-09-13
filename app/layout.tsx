@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import Script from "next/script";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -38,20 +37,18 @@ const mono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Devhillz — Docker & Kubernetes, taught properly",
+  title: "Devhillz — The stage for digital creators",
   description:
-    "Two no-fluff DevOps courses: every command explained simply, with real examples and real use cases. Climb the DevOps Hillz.",
+    "The home of world-leading digital catalogues. Engineering, design, words, film, automation and growth — one catalogue, one stage.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${display.variable} ${heading.variable} ${sans.variable} ${mono.variable}`}>
-      <body className="bg-ink-950 font-sans text-paper antialiased">
+      <body className="bg-void-950 font-sans text-paper antialiased">
         <Header />
         {children}
         <Footer />
-        {/* Lemon Squeezy overlay checkout — see lib/checkout.ts */}
-        <Script src="https://assets.lemonsqueezy.com/lemon.squeezy.js" strategy="afterInteractive" />
       </body>
     </html>
   );
