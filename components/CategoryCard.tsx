@@ -3,7 +3,7 @@ import { Glyph } from "@/components/icons";
 
 export function CategoryCard({ category }: { category: Category }) {
   return (
-    <article className="glass-card group relative flex flex-col gap-5 overflow-hidden p-7 transition-all duration-500 hover:-translate-y-1 hover:border-white/25">
+    <article className="glass-card group relative flex w-[84%] shrink-0 snap-center flex-col gap-5 overflow-hidden p-7 transition-all duration-500 hover:-translate-y-1 hover:border-white/25 sm:w-auto">
       <div
         className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full opacity-[0.14] blur-3xl transition-opacity duration-500 group-hover:opacity-30"
         style={{ background: category.accent }}

@@ -92,7 +92,7 @@ export default function HomePage() {
               titles that ship in minutes and stay yours forever.
             </p>
           </div>
-          <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="no-scrollbar -mx-6 mt-14 flex snap-x snap-mandatory gap-5 overflow-x-auto px-6 pb-4 sm:mx-0 sm:grid sm:snap-none sm:grid-cols-2 sm:overflow-visible sm:pb-0 sm:px-0 lg:grid-cols-3">
             {categories.map((category) => (
               <CategoryCard key={category.slug} category={category} />
             ))}
@@ -132,7 +132,7 @@ export default function HomePage() {
             A stage every performer can trust. No gatekeepers, no rent, no arbitrary limits —
             just lights, a floor, and the audience you&apos;re building.
           </p>
-          <div className="mt-16 grid gap-5 text-left sm:grid-cols-3">
+          <div className="no-scrollbar -mx-6 mt-16 flex snap-x snap-mandatory gap-5 overflow-x-auto px-6 pb-4 text-left sm:mx-0 sm:grid sm:snap-none sm:grid-cols-3 sm:overflow-visible sm:pb-0 sm:px-0">
             {(
               [
                 [
@@ -152,7 +152,7 @@ export default function HomePage() {
                 ],
               ] as const
             ).map(([title, body, accent]) => (
-              <div key={title} className="glass-card group relative overflow-hidden p-6">
+              <div key={title} className="glass-card group relative w-[82%] shrink-0 snap-center overflow-hidden p-6 sm:w-auto">
                 <div
                   className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full opacity-[0.12] blur-2xl transition-opacity duration-500 group-hover:opacity-25"
                   style={{ background: accent }}

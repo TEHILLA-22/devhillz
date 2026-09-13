@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useRef, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 
 type Sweep = "curtainRight" | "curtainLeft" | "curtainUp" | "curtainDown";
 
@@ -15,6 +15,9 @@ const SWEEP_CLASS: Record<Sweep, string> = {
  * A full "scene" of the landing page. Its clip-path and 3D tilt are tied
  * to scroll position (curtain sweep) rather than any opacity fade, so each
  * section flows into the next like a film scene cut.
+ *
+ * On portrait/mobile widths the sweep switches to a vertical top-down curtain
+ * (reads dramatically on a tall screen); landscape keeps the horizontal sweep.
  *
  * Falls back to fully visible, static content when JS is off or the user
  * prefers reduced motion.
@@ -33,6 +36,15 @@ export function Scene({
   children: ReactNode;
 }) {
   const ref = useRef<HTMLElement>(null);
+  const [mobile, setMobile] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    const update = () => setMobile(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
 
   useLayoutEffect(() => {
     const el = ref.current;
@@ -67,11 +79,13 @@ export function Scene({
     };
   }, []);
 
+  const activeSweep: Sweep = mobile ? "curtainUp" : sweep;
+
   return (
     <section
       ref={ref}
       id={id}
-      className={`scene ${SWEEP_CLASS[sweep]} ${className}`}
+      className={`scene ${SWEEP_CLASS[activeSweep]} ${className}`}
       style={style}
     >
       {children}
